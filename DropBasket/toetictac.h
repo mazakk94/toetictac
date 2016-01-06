@@ -6,13 +6,13 @@
 #include <QWidget>
 #include <QtNetwork>
 
-class DropBasket : public QMainWindow
+class Toetictac : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	DropBasket(QWidget *parent = 0);
-	~DropBasket();
+	Toetictac(QWidget *parent = 0);
+	~Toetictac();
 
 public slots:
 	void startClient();
@@ -24,7 +24,7 @@ public slots:
 	void serverSend();
 
 private:
-	Ui::DropBasketClass ui;
+	Ui::ToetictacClass ui;
 };
 
 #endif // TOETICTAC_H

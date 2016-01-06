@@ -27,7 +27,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_DropBasketClass
+class Ui_ToetictacClass
 {
 public:
     QWidget *centralWidget;
@@ -48,12 +48,12 @@ public:
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
-    void setupUi(QMainWindow *DropBasketClass)
+    void setupUi(QMainWindow *ToetictacClass)
     {
-        if (DropBasketClass->objectName().isEmpty())
-            DropBasketClass->setObjectName(QStringLiteral("DropBasketClass"));
-        DropBasketClass->resize(621, 482);
-        centralWidget = new QWidget(DropBasketClass);
+        if (ToetictacClass->objectName().isEmpty())
+            ToetictacClass->setObjectName(QStringLiteral("ToetictacClass"));
+        ToetictacClass->resize(621, 482);
+        centralWidget = new QWidget(ToetictacClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
@@ -100,41 +100,41 @@ public:
         fServerSend = new QPushButton(centralWidget);
         fServerSend->setObjectName(QStringLiteral("fServerSend"));
         fServerSend->setGeometry(QRect(20, 160, 211, 31));
-        DropBasketClass->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(DropBasketClass);
+        ToetictacClass->setCentralWidget(centralWidget);
+        menuBar = new QMenuBar(ToetictacClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 621, 21));
-        DropBasketClass->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(DropBasketClass);
+        ToetictacClass->setMenuBar(menuBar);
+        mainToolBar = new QToolBar(ToetictacClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        DropBasketClass->addToolBar(Qt::TopToolBarArea, mainToolBar);
-        statusBar = new QStatusBar(DropBasketClass);
+        ToetictacClass->addToolBar(Qt::TopToolBarArea, mainToolBar);
+        statusBar = new QStatusBar(ToetictacClass);
         statusBar->setObjectName(QStringLiteral("statusBar"));
-        DropBasketClass->setStatusBar(statusBar);
+        ToetictacClass->setStatusBar(statusBar);
 
-        retranslateUi(DropBasketClass);
+        retranslateUi(ToetictacClass);
 
-        QMetaObject::connectSlotsByName(DropBasketClass);
+        QMetaObject::connectSlotsByName(ToetictacClass);
     } // setupUi
 
-    void retranslateUi(QMainWindow *DropBasketClass)
+    void retranslateUi(QMainWindow *ToetictacClass)
     {
-        DropBasketClass->setWindowTitle(QApplication::translate("DropBasketClass", "DropBasket", 0));
-        pushButton->setText(QApplication::translate("DropBasketClass", "Utw\303\263rz serwer", 0));
-        lineEdit->setText(QApplication::translate("DropBasketClass", "localhost", 0));
-        label->setText(QApplication::translate("DropBasketClass", "Host address", 0));
-        label_2->setText(QApplication::translate("DropBasketClass", "Port", 0));
-        fJoinToServ->setText(QApplication::translate("DropBasketClass", "Do\305\202\304\205cz do serwera", 0));
-        label_3->setText(QApplication::translate("DropBasketClass", "SERVER", 0));
-        label_4->setText(QApplication::translate("DropBasketClass", "CLIENT", 0));
-        fClientSend->setText(QApplication::translate("DropBasketClass", "Wy\305\233lij wiadomo\305\233\304\207 do serwera", 0));
-        fServerSend->setText(QApplication::translate("DropBasketClass", "Wy\305\233lij wiadomo\305\233\304\207 do klienta", 0));
+        ToetictacClass->setWindowTitle(QApplication::translate("ToetictacClass", "Toetictac", 0));
+        pushButton->setText(QApplication::translate("ToetictacClass", "Utw\303\263rz serwer", 0));
+        lineEdit->setText(QApplication::translate("ToetictacClass", "localhost", 0));
+        label->setText(QApplication::translate("ToetictacClass", "Host address", 0));
+        label_2->setText(QApplication::translate("ToetictacClass", "Port", 0));
+        fJoinToServ->setText(QApplication::translate("ToetictacClass", "Do\305\202\304\205cz do serwera", 0));
+        label_3->setText(QApplication::translate("ToetictacClass", "SERVER", 0));
+        label_4->setText(QApplication::translate("ToetictacClass", "CLIENT", 0));
+        fClientSend->setText(QApplication::translate("ToetictacClass", "Wy\305\233lij wiadomo\305\233\304\207 do serwera", 0));
+        fServerSend->setText(QApplication::translate("ToetictacClass", "Wy\305\233lij wiadomo\305\233\304\207 do klienta", 0));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class DropBasketClass: public Ui_DropBasketClass {};
+    class ToetictacClass: public Ui_ToetictacClass {};
 } // namespace Ui
 
 QT_END_NAMESPACE
