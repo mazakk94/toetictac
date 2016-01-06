@@ -38,9 +38,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_dropbasket.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="toetictac.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -50,16 +47,19 @@
     <ClCompile Include="GeneratedFiles\Release\moc_toetictac.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_toetictac.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="dropbasket.qrc">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="toetictac.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="toetictac.ui">
       <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="toetictac.qrc">
+      <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
