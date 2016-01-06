@@ -1,12 +1,14 @@
 #include "toetictac.h"
 
+using namespace std;
 QTcpSocket *clientSock;
-QTcpSocket *lastClientConnectedToServ; // przerobic to na tablice klientow-socketow
+vector<QTcpSocket*> clients; // przerobic to na tablice klientow-socketow
 QTcpServer *serv;
 
 void Toetictac::newClientConnected() {
-	lastClientConnectedToServ = serv->nextPendingConnection();
-	connect(lastClientConnectedToServ, &QTcpSocket::readyRead, this, &Toetictac::readFromClient);
+	QTcpSocket* newClient = serv->nextPendingConnection();
+	clients.push_back(newClient);
+	connect(newClient, &QTcpSocket::readyRead, this, &Toetictac::readFromClient);
 
 	ui.pushButton->setText("Odebrano klienta");
 }
@@ -28,9 +30,14 @@ void Toetictac::readFromServ() {
 }
 
 void Toetictac::readFromClient() {
-	QByteArray arr = lastClientConnectedToServ->readAll();
-	QString str = QString::fromUtf8(arr);
-	ui.textEdit->append(str);
+	for (int i = 0; i < clients.size(); i++) {
+		if (clients[i]->bytesAvailable() != 0) {
+			QByteArray arr = clients[i]->readAll();
+			QString str = QString::fromUtf8(arr);
+			ui.textEdit->append(str);
+			break;
+		}
+	}
 }
 
 void Toetictac::startServer() {
@@ -47,7 +54,9 @@ void Toetictac::clientSend() {
 }
 
 void Toetictac::serverSend() {
-	lastClientConnectedToServ->write(ui.fServerMsg->text().toUtf8());
+	for (int i = 0; i < clients.size(); i++) {
+		clients[i]->write(ui.fServerMsg->text().toUtf8());
+	}
 }
 
 Toetictac::Toetictac(QWidget *parent)
