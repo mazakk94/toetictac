@@ -1,10 +1,21 @@
 #include "toetictac.h"
+#include <string>
+#include <codecvt>
 
 using namespace std;
 QTcpSocket *clientSock;
 vector<QTcpSocket*> clients; // przerobic to na tablice klientow-socketow
+vector<int> clientsTeams;
 QTcpServer *serv;
+QByteArray isTeam1;
+bool whichTurn = 0; // 0 - gracz 1
+					// 1 - gracz 2
+//string whichTeam = u8"z\u6c34\U0001d10b";
 
+
+/*
+	CZÊŒÆ SERWERA
+*/
 void Toetictac::newClientConnected() {
 	QTcpSocket* newClient = serv->nextPendingConnection();
 	clients.push_back(newClient);
@@ -13,6 +24,61 @@ void Toetictac::newClientConnected() {
 	ui.pushButton->setText("Odebrano klienta");
 }
 
+
+void Toetictac::readFromClient() {
+	for (int i = 0; i < clients.size(); i++) {
+		if (clients[i]->bytesAvailable() != 0) {
+			QByteArray arr = clients[i]->readAll();
+			QString clientID = arr.mid(0, 1);
+			if ((whichTurn == 0 && clientID == "1") || (whichTurn == 1 && clientID == "2")){
+				QString info("Gracz numer ");
+
+				if (clientID == "1")
+					whichTurn = 1; //czas na druzyne 2
+				else
+					whichTurn = 0; //czas na druzyne 1
+
+				QString info2(": ");
+				QString msg(info + clientID + info2 + arr.mid(1, arr.size()));
+				ui.textEdit->append(msg);
+				break;
+			} 
+			//ui.textEdit->append(arr);
+			//QByteArray arr2 = arr;
+			//QString str(QString::fromUtf8(arr));
+			//QString str = arr;
+			//QStringRef clientID(str, 0, 1);
+			
+		}
+	}
+}
+
+
+
+void Toetictac::startServer() {
+
+	serv = new QTcpServer(this);
+	connect(serv, &QTcpServer::newConnection, this, &Toetictac::newClientConnected);
+	serv->listen(QHostAddress::Any, 1111);
+
+	ui.pushButton->setText("Serwer utworzony");
+}
+
+
+void Toetictac::serverSend() {
+	for (int i = 0; i < clients.size(); i++) {
+		//string msg = isTeam1 + ui.fServerMsg->text().toUtf8()
+		clients[i]->write(ui.fServerMsg->text().toUtf8());
+	}
+}
+
+void Toetictac::voteForButton(){
+	//TODO
+}
+
+/*
+	CZÊŒÆ KLIENTA
+*/
 void Toetictac::startClient() {
 
 	clientSock = new QTcpSocket(this);
@@ -24,40 +90,32 @@ void Toetictac::startClient() {
 }
 
 void Toetictac::readFromServ() {
+	
 	QByteArray arr = clientSock->readAll();
 	QString str = QString::fromUtf8(arr);
 	ui.textEdit->append(str);
 }
 
-void Toetictac::readFromClient() {
-	for (int i = 0; i < clients.size(); i++) {
-		if (clients[i]->bytesAvailable() != 0) {
-			QByteArray arr = clients[i]->readAll();
-			QString str = QString::fromUtf8(arr);
-			ui.textEdit->append(str);
-			break;
-		}
-	}
-}
-
-void Toetictac::startServer() {
-
-	serv = new QTcpServer(this);
-	connect(serv, &QTcpServer::newConnection, this, &Toetictac::newClientConnected);
-	serv->listen(QHostAddress::Any, 1111);
-
-	ui.pushButton->setText("Serwer utworzony");
-}
 
 void Toetictac::clientSend() {
-	clientSock->write(ui.fClientMsg->text().toUtf8());
+	QString msg((QString::fromUtf8(isTeam1)) + ui.fClientMsg->text().toUtf8());
+	//ui.textEdit->append(msg);
+	//QByteArray msgbyte((const char*)(msg.utf16()), msg.size() * 2);
+	QByteArray msgbyte = msg.toUtf8();
+	//QByteArray msgbyte = (QByteArray) msg;
+	clientSock->write(msgbyte);
 }
 
-void Toetictac::serverSend() {
-	for (int i = 0; i < clients.size(); i++) {
-		clients[i]->write(ui.fServerMsg->text().toUtf8());
-	}
+void Toetictac::jointEam1(){
+	isTeam1 = "1";
+	//ui.textEdit->append(isTeam1);
 }
+
+void Toetictac::jointEam2(){
+	isTeam1 = "2";
+	//ui.textEdit->append(isTeam1);
+}
+
 
 Toetictac::Toetictac(QWidget *parent)
 	: QMainWindow(parent)
@@ -67,6 +125,8 @@ Toetictac::Toetictac(QWidget *parent)
 	QObject::connect(ui.fJoinToServ, SIGNAL(clicked()), this, SLOT(startClient()));
 	QObject::connect(ui.fClientSend, SIGNAL(clicked()), this, SLOT(clientSend()));
 	QObject::connect(ui.fServerSend, SIGNAL(clicked()), this, SLOT(serverSend()));
+	QObject::connect(ui.bTeam1, SIGNAL(clicked()), this, SLOT(jointEam1()));
+	QObject::connect(ui.bTeam2, SIGNAL(clicked()), this, SLOT(jointEam2()));
 }
 
 Toetictac::~Toetictac()

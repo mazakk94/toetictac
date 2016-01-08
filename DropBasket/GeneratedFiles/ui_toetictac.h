@@ -44,6 +44,8 @@ public:
     QPushButton *fClientSend;
     QLineEdit *fServerMsg;
     QPushButton *fServerSend;
+    QPushButton *bTeam1;
+    QPushButton *bTeam2;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -74,10 +76,10 @@ public:
         spinBox->setMaximum(9999);
         fJoinToServ = new QPushButton(centralWidget);
         fJoinToServ->setObjectName(QStringLiteral("fJoinToServ"));
-        fJoinToServ->setGeometry(QRect(380, 100, 211, 31));
+        fJoinToServ->setGeometry(QRect(380, 140, 211, 31));
         textEdit = new QTextEdit(centralWidget);
         textEdit->setObjectName(QStringLiteral("textEdit"));
-        textEdit->setGeometry(QRect(30, 230, 561, 191));
+        textEdit->setGeometry(QRect(30, 260, 561, 161));
         label_3 = new QLabel(centralWidget);
         label_3->setObjectName(QStringLiteral("label_3"));
         label_3->setGeometry(QRect(100, 10, 81, 21));
@@ -90,16 +92,22 @@ public:
         label_4->setFont(font);
         fClientMsg = new QLineEdit(centralWidget);
         fClientMsg->setObjectName(QStringLiteral("fClientMsg"));
-        fClientMsg->setGeometry(QRect(380, 150, 211, 20));
+        fClientMsg->setGeometry(QRect(380, 190, 211, 20));
         fClientSend = new QPushButton(centralWidget);
         fClientSend->setObjectName(QStringLiteral("fClientSend"));
-        fClientSend->setGeometry(QRect(380, 180, 211, 31));
+        fClientSend->setGeometry(QRect(380, 220, 211, 31));
         fServerMsg = new QLineEdit(centralWidget);
         fServerMsg->setObjectName(QStringLiteral("fServerMsg"));
-        fServerMsg->setGeometry(QRect(20, 130, 211, 20));
+        fServerMsg->setGeometry(QRect(30, 130, 211, 20));
         fServerSend = new QPushButton(centralWidget);
         fServerSend->setObjectName(QStringLiteral("fServerSend"));
-        fServerSend->setGeometry(QRect(20, 160, 211, 31));
+        fServerSend->setGeometry(QRect(30, 160, 211, 31));
+        bTeam1 = new QPushButton(centralWidget);
+        bTeam1->setObjectName(QStringLiteral("bTeam1"));
+        bTeam1->setGeometry(QRect(380, 110, 101, 23));
+        bTeam2 = new QPushButton(centralWidget);
+        bTeam2->setObjectName(QStringLiteral("bTeam2"));
+        bTeam2->setGeometry(QRect(490, 110, 101, 23));
         ToetictacClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ToetictacClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -129,6 +137,8 @@ public:
         label_4->setText(QApplication::translate("ToetictacClass", "CLIENT", 0));
         fClientSend->setText(QApplication::translate("ToetictacClass", "Wy\305\233lij wiadomo\305\233\304\207 do serwera", 0));
         fServerSend->setText(QApplication::translate("ToetictacClass", "Wy\305\233lij wiadomo\305\233\304\207 do klienta", 0));
+        bTeam1->setText(QApplication::translate("ToetictacClass", "Dru\305\274yna 1", 0));
+        bTeam2->setText(QApplication::translate("ToetictacClass", "Dru\305\274yna 2", 0));
     } // retranslateUi
 
 };

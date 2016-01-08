@@ -1,4 +1,4 @@
-﻿Build started 2016-01-06 23:46:05.
+﻿Build started 2016-01-08 03:19:23.
      1>Project "C:\Users\Mazi\Documents\Visual Studio 2013\Projects\toetictac\DropBasket\DropBasket.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (DropBasket.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
@@ -14,4 +14,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.06
+Time Elapsed 00:00:02.76

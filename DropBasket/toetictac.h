@@ -22,6 +22,9 @@ public slots:
 	void startServer();
 	void clientSend();
 	void serverSend();
+	void voteForButton();
+	void jointEam1();
+	void jointEam2();
 
 private:
 	Ui::ToetictacClass ui;

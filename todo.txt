@@ -1,0 +1,6 @@
+todo:
+
+zrobiona jest blokada graczy ale pojedynczo, 
+- trzeba zbierać info od np. 4 graczy żeby serwer zbierał i wybierał jaki ruch chcą wykonać gracze danej drużyny 
+- zrobimy 9 pól na które będzie można głosować 
+- zmiana nazwy
