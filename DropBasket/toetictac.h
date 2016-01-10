@@ -15,6 +15,7 @@ public:
 	~Toetictac();
 
 public slots:
+	void playerJoint();
 	void startClient();
 	void newClientConnected();
 	void readFromServ();

@@ -7,21 +7,33 @@ QTcpSocket *clientSock;
 vector<QTcpSocket*> clients; // przerobic to na tablice klientow-socketow
 vector<int> clientsTeams;
 QTcpServer *serv;
-QByteArray isTeam1;
+QByteArray isTeam1 = "0";
+
+int numOfTeam1 = 0;
+int numOfTeam2 = 0;
 bool whichTurn = 0; // 0 - gracz 1
 					// 1 - gracz 2
-//string whichTeam = u8"z\u6c34\U0001d10b";
-
 
 /*
 	CZÊŒÆ SERWERA
 */
+
 void Toetictac::newClientConnected() {
 	QTcpSocket* newClient = serv->nextPendingConnection();
 	clients.push_back(newClient);
 	connect(newClient, &QTcpSocket::readyRead, this, &Toetictac::readFromClient);
 
 	ui.pushButton->setText("Odebrano klienta");
+}
+
+
+void Toetictac::startServer() {
+
+	serv = new QTcpServer(this);
+	connect(serv, &QTcpServer::newConnection, this, &Toetictac::newClientConnected);
+	serv->listen(QHostAddress::Any, 1111);
+
+	ui.pushButton->setText("Serwer utworzony");
 }
 
 
@@ -55,14 +67,7 @@ void Toetictac::readFromClient() {
 
 
 
-void Toetictac::startServer() {
 
-	serv = new QTcpServer(this);
-	connect(serv, &QTcpServer::newConnection, this, &Toetictac::newClientConnected);
-	serv->listen(QHostAddress::Any, 1111);
-
-	ui.pushButton->setText("Serwer utworzony");
-}
 
 
 void Toetictac::serverSend() {
@@ -79,14 +84,16 @@ void Toetictac::voteForButton(){
 /*
 	CZÊŒÆ KLIENTA
 */
-void Toetictac::startClient() {
 
+
+void Toetictac::startClient() {
+	
 	clientSock = new QTcpSocket(this);
 	connect(clientSock, &QTcpSocket::readyRead, this, &Toetictac::readFromServ);
 	clientSock->connectToHost(ui.lineEdit->text(), ui.spinBox->value());
+	QString text = "Twoj team: " + isTeam1;
 
-
-	ui.fJoinToServ->setText("Klient utworzony");
+	ui.fJoinToServ->setText(text);
 }
 
 void Toetictac::readFromServ() {
@@ -108,12 +115,22 @@ void Toetictac::clientSend() {
 
 void Toetictac::jointEam1(){
 	isTeam1 = "1";
-	//ui.textEdit->append(isTeam1);
+	numOfTeam1++;
+	ui.numOfPlayers1->setText(QString::number(numOfTeam1));
+	playerJoint();
 }
 
 void Toetictac::jointEam2(){
 	isTeam1 = "2";
-	//ui.textEdit->append(isTeam1);
+	numOfTeam2++;
+	ui.numOfPlayers2->setText(QString::number(numOfTeam2));
+	playerJoint();
+}
+
+void Toetictac::playerJoint(){
+	ui.fJoinToServ->setEnabled(true);
+	ui.bTeam1->setEnabled(false);
+	ui.bTeam2->setEnabled(false);
 }
 
 
