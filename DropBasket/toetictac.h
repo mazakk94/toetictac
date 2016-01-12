@@ -26,7 +26,6 @@ public slots:
 	void newClientConnected();
 	void readFromServ();
 	void readFromClient();
-	void readFromClients();
 	void startServer();
 	void clientSend();
 	void serverSend();
@@ -42,6 +41,8 @@ public slots:
 	void win2();
 	void clear();
 	void on_pushButton_11_clicked();
+	void democracy();
+	void election(QString baton);
 
 private:
 	Ui::ToetictacClass ui;
