@@ -5,6 +5,12 @@
 #include "ui_toetictac.h"
 #include <QWidget>
 #include <QtNetwork>
+#include <iostream>
+#include <string>
+
+namespace Ui {
+	class Toetictac;
+}
 
 class Toetictac : public QMainWindow
 {
@@ -20,6 +26,7 @@ public slots:
 	void newClientConnected();
 	void readFromServ();
 	void readFromClient();
+	void readFromClients();
 	void startServer();
 	void clientSend();
 	void serverSend();
@@ -27,8 +34,28 @@ public slots:
 	void jointEam1();
 	void jointEam2();
 
+
+	bool check();
+	bool check2();
+	void gameStart();
+	void win();
+	void win2();
+	void clear();
+	void on_pushButton_11_clicked();
+
 private:
 	Ui::ToetictacClass ui;
+	private slots:
+
+	void on_pushButton_clicked();
+	void on_pushButton_2_clicked();
+	void on_pushButton_3_clicked();
+	void on_pushButton_4_clicked();
+	void on_pushButton_6_clicked();
+	void on_pushButton_5_clicked();
+	void on_pushButton_7_clicked();
+	void on_pushButton_8_clicked();
+	void on_pushButton_9_clicked();
 };
 
 #endif // TOETICTAC_H
