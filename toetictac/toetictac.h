@@ -7,6 +7,9 @@
 #include <QtNetwork>
 #include <iostream>
 #include <string>
+#include <vector>
+
+using namespace std;
 
 namespace Ui {
 	class Toetictac;
@@ -28,10 +31,13 @@ public slots:
 	void readFromClient();
 	void startServer();
 	void clientSend();
-	void serverSend();
+	void serverSend(QString msg);
 	void voteForButton();
 	void jointEam1();
 	void jointEam2();
+
+	vector<bool> getTeams(string);
+	void unlockButtons();
 
 
 	bool check();

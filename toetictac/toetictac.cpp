@@ -4,6 +4,7 @@
 
 
 using namespace std;
+
 QTcpSocket *clientSock;
 vector<QTcpSocket*> clients; 
 vector<int> clientsTeams;
@@ -14,7 +15,6 @@ int numOfTeam1 = 0;
 int numOfTeam2 = 0;
 bool whichTurn = 0; // 0 - gracz 1
 					// 1 - gracz 2
-
 /*
       CZÊŒÆ GRY
 */
@@ -33,6 +33,10 @@ int draws = 1;
 int moves = 0;
 bool moved;
 
+vector<bool> teams(4, 0);
+//teams = { 0, 0, 0, 0 };
+bool acceptJoin = 0;
+
 /*
 	CZÊŒÆ SERWERA
 */
@@ -45,7 +49,12 @@ void Toetictac::newClientConnected() {
 	clients.push_back(newClient);
 	connect(newClient, &QTcpSocket::readyRead, this, &Toetictac::readFromClient);
 
-	ui.pushButton69->setText("Odebrano klienta nr: ");
+	if (clients.size() == 4){
+		ui.textEdit->append("jest 4 klientów");
+		//wyslij wiadomosc do klientów
+		serverSend("0111");
+	}
+	ui.pushButton69->setText("Odebrano klienta");
 }
 
 void Toetictac::startServer() {
@@ -85,13 +94,22 @@ void Toetictac::readFromClient() {
 
 
 
+vector<bool> Toetictac::getTeams(string msg){
+
+	vector<bool> teams(4, 1);
+	for (int i = 0; i < 4; i++){
+		if (msg[i] == '0')
+			teams[i] = 0;
+	}
+	return teams;
+}
 
 
-
-void Toetictac::serverSend() {
+void Toetictac::serverSend(QString msg) {
 	for (int i = 0; i < clients.size(); i++) {
-		//string msg = isTeam1 + ui.fServerMsg->text().toUtf8()
-		clients[i]->write(ui.fServerMsg->text().toUtf8());
+		//string mmsg = msg.toUtf8();
+		//clients[i]->write(ui.fServerMsg->text().toUtf8());
+		clients[i]->write(msg.toUtf8());
 	}
 }
 
@@ -102,6 +120,20 @@ void Toetictac::voteForButton(){
 /*
 	CZÊŒÆ KLIENTA
 */
+
+
+
+void Toetictac::unlockButtons(){
+	if (teams[0] == 0)
+		ui.bTeam11->setEnabled(true);
+	if (teams[1] == 0)
+		ui.bTeam12->setEnabled(true);
+	if (teams[2] == 0)
+		ui.bTeam21->setEnabled(true);
+	if (teams[3] == 0)
+		ui.bTeam22->setEnabled(true);
+}
+
 void Toetictac::startClient() {
 
 	clientSock = new QTcpSocket(this);
@@ -109,15 +141,87 @@ void Toetictac::startClient() {
 	clientSock->connectToHost(ui.lineEdit->text(), ui.spinBox->value());
 
 	
-	QString text = "Twoj team: " + isTeam1;
+	QString text = "Wybierz slot gracza:";
 	ui.fJoinToServ->setText(text);
+	//unlockButtons();
 }
 
 void Toetictac::readFromServ() {
 	
 	QByteArray arr = clientSock->readAll();
 	QString str = QString::fromUtf8(arr);
+	
+	if (str.length() == 4){
+		teams = getTeams(str.toStdString());
+		for (int o = 0; o < 4; o++){
+			ui.textEdit->append(QString::number(teams[o]));
+		}
+	}
+
+	unlockButtons();
 	ui.textEdit->append(str);
+
+	int x = str.split(" ")[0].toInt();
+
+	switch (x)
+	{
+	case 1:
+		ui.pushButton->setText(playerName);
+		break;
+	case 2:
+		ui.pushButton->setText(playerName2);
+		break;
+	case 3:
+		ui.pushButton_2->setText(playerName);
+		break;
+	case 4:
+		ui.pushButton_2->setText(playerName2);
+		break;
+	case 5:
+		ui.pushButton_3->setText(playerName);
+		break;
+	case 6:
+		ui.pushButton_3->setText(playerName2);
+		break;
+	case 7:
+		ui.pushButton_4->setText(playerName);
+		break;
+	case 8:
+		ui.pushButton_4->setText(playerName2);
+		break;
+	case 9:
+		ui.pushButton_5->setText(playerName);
+		break;
+	case 10:
+		ui.pushButton_5->setText(playerName2);
+		break;
+	case 11:
+		ui.pushButton_6->setText(playerName);
+		break;
+	case 12:
+		ui.pushButton_6->setText(playerName2);
+		break;
+	case 13:
+		ui.pushButton_7->setText(playerName);
+		break;
+	case 14:
+		ui.pushButton_7->setText(playerName2);
+		break;
+	case 15:
+		ui.pushButton_8->setText(playerName);
+		break;
+	case 16:
+		ui.pushButton_8->setText(playerName2);
+		break;
+	case 17:
+		ui.pushButton_9->setText(playerName);
+		break;
+	case 18:
+		ui.pushButton_9->setText(playerName2);
+		break;
+	default:
+		break;
+	}
 }
 
 
@@ -142,9 +246,8 @@ void Toetictac::jointEam2(){
 }
 
 void Toetictac::playerJoint(){
-	ui.fJoinToServ->setEnabled(true);
-	ui.bTeam1->setEnabled(false);
-	ui.bTeam2->setEnabled(false);
+	//ui.bTeam1->setEnabled(false);
+	//ui.bTeam2->setEnabled(false);
 }
 
 Toetictac::Toetictac(QWidget *parent)
@@ -156,8 +259,8 @@ Toetictac::Toetictac(QWidget *parent)
 	QObject::connect(ui.fJoinToServ, SIGNAL(clicked()), this, SLOT(startClient()));
 	QObject::connect(ui.fClientSend, SIGNAL(clicked()), this, SLOT(clientSend()));
 	QObject::connect(ui.fServerSend, SIGNAL(clicked()), this, SLOT(serverSend()));
-	QObject::connect(ui.bTeam1, SIGNAL(clicked()), this, SLOT(jointEam1()));
-	QObject::connect(ui.bTeam2, SIGNAL(clicked()), this, SLOT(jointEam2()));
+	//QObject::connect(ui.bTeam1, SIGNAL(clicked()), this, SLOT(jointEam1()));
+	//QObject::connect(ui.bTeam2, SIGNAL(clicked()), this, SLOT(jointEam2()));
 }
 
 Toetictac::~Toetictac()
@@ -407,110 +510,164 @@ void Toetictac::election(QString baton)
 	switch (x)
 	{
 	case 1:
-		if (moved){                                /////////// WYSY£ANIE DO WSZYSTKICH UZYTKOWNIKOW RUCHU                                  
-			ui.pushButton->setText(playerName);
+		if (moved){
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "1";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;
 			check();
 		}
 		else{
-			ui.pushButton->setText(playerName2);
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "2";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;;
 			check2();
 		}
 		break;
 
 	case 2:
-		if (moved){                                   
-			ui.pushButton_2->setText(playerName);
+		if (moved){
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "3";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;
 			check();
 		}
 		else{
-			ui.pushButton_2->setText(playerName2);
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "4";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;;
 			check2();
 		}
 		break;
 	case 3:
-		if (moved){                                  
-			ui.pushButton_3->setText(playerName);
+		if (moved){
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "5";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;
 			check();
 		}
 		else{
-			ui.pushButton_3->setText(playerName2);
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "6";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;;
 			check2();
 		}
 		break;
 	case 4:
-		if (moved){                                   
-			ui.pushButton_4->setText(playerName);
+		if (moved){
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "7";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;
 			check();
 		}
 		else{
-			ui.pushButton_4->setText(playerName2);
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "8";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;;
 			check2();
 		}
 		break;
 	case 5:
-		if (moved){                                   
-			ui.pushButton_5->setText(playerName);
+		if (moved){
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "9";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;
 			check();
 		}
 		else{
-			ui.pushButton_5->setText(playerName2);
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "10";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;;
 			check2();
 		}
 		break;
 	case 6:
-		if (moved){                                   
-			ui.pushButton_6->setText(playerName);
+		if (moved){
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "11";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;
 			check();
 		}
 		else{
-			ui.pushButton_6->setText(playerName2);
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "12";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;;
 			check2();
 		}
 		break;
 	case 7:
-		if (moved){                                  
-			ui.pushButton_7->setText(playerName);
+		if (moved){
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "13";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;
 			check();
 		}
 		else{
-			ui.pushButton_7->setText(playerName2);
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "14";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;;
 			check2();
 		}
 		break;
 	case 8:
-		if (moved){                                   
-			ui.pushButton_8->setText(playerName);
+		if (moved){
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "15";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;
 			check();
 		}
 		else{
-			ui.pushButton_8->setText(playerName2);
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "16";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;;
 			check2();
 		}
 		break;
 	case 9:
-		if (moved){                                   
-			ui.pushButton_9->setText(playerName);
+		if (moved){
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "17";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;
 			check();
 		}
 		else{
-			ui.pushButton_9->setText(playerName2);
+			for (int i = 0; i < clients.size(); i++) {
+				QString msg = "18";
+				clients[i]->write(msg.toUtf8());
+			}
 			moves++;;
 			check2();
 		}
@@ -519,7 +676,6 @@ void Toetictac::election(QString baton)
 		break;
 	}
 }
-
 
 //----------------------------PLAYERS BUTTONS BEGIN---------------------------------
 void Toetictac::on_pushButton_clicked()

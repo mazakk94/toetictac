@@ -44,8 +44,8 @@ public:
     QPushButton *fClientSend;
     QLineEdit *fServerMsg;
     QPushButton *fServerSend;
-    QPushButton *bTeam1;
-    QPushButton *bTeam2;
+    QPushButton *bTeam11;
+    QPushButton *bTeam12;
     QPushButton *pushButton_4;
     QLabel *label_5;
     QLabel *label;
@@ -64,6 +64,8 @@ public:
     QPushButton *pushButton_9;
     QLabel *numOfPlayers1;
     QLabel *numOfPlayers2;
+    QPushButton *bTeam21;
+    QPushButton *bTeam22;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -94,8 +96,8 @@ public:
         spinBox->setMaximum(9999);
         fJoinToServ = new QPushButton(centralWidget);
         fJoinToServ->setObjectName(QStringLiteral("fJoinToServ"));
-        fJoinToServ->setEnabled(false);
-        fJoinToServ->setGeometry(QRect(380, 140, 211, 31));
+        fJoinToServ->setEnabled(true);
+        fJoinToServ->setGeometry(QRect(380, 100, 211, 31));
         textEdit = new QTextEdit(centralWidget);
         textEdit->setObjectName(QStringLiteral("textEdit"));
         textEdit->setGeometry(QRect(30, 210, 221, 301));
@@ -114,6 +116,7 @@ public:
         fClientMsg->setGeometry(QRect(380, 190, 211, 20));
         fClientSend = new QPushButton(centralWidget);
         fClientSend->setObjectName(QStringLiteral("fClientSend"));
+        fClientSend->setEnabled(false);
         fClientSend->setGeometry(QRect(380, 220, 211, 31));
         fServerMsg = new QLineEdit(centralWidget);
         fServerMsg->setObjectName(QStringLiteral("fServerMsg"));
@@ -121,12 +124,14 @@ public:
         fServerSend = new QPushButton(centralWidget);
         fServerSend->setObjectName(QStringLiteral("fServerSend"));
         fServerSend->setGeometry(QRect(30, 160, 211, 31));
-        bTeam1 = new QPushButton(centralWidget);
-        bTeam1->setObjectName(QStringLiteral("bTeam1"));
-        bTeam1->setGeometry(QRect(380, 110, 101, 23));
-        bTeam2 = new QPushButton(centralWidget);
-        bTeam2->setObjectName(QStringLiteral("bTeam2"));
-        bTeam2->setGeometry(QRect(490, 110, 101, 23));
+        bTeam11 = new QPushButton(centralWidget);
+        bTeam11->setObjectName(QStringLiteral("bTeam11"));
+        bTeam11->setEnabled(false);
+        bTeam11->setGeometry(QRect(380, 150, 41, 23));
+        bTeam12 = new QPushButton(centralWidget);
+        bTeam12->setObjectName(QStringLiteral("bTeam12"));
+        bTeam12->setEnabled(false);
+        bTeam12->setGeometry(QRect(430, 150, 41, 23));
         pushButton_4 = new QPushButton(centralWidget);
         pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
         pushButton_4->setGeometry(QRect(320, 410, 50, 50));
@@ -192,6 +197,14 @@ public:
         numOfPlayers2 = new QLabel(centralWidget);
         numOfPlayers2->setObjectName(QStringLiteral("numOfPlayers2"));
         numOfPlayers2->setGeometry(QRect(420, 280, 47, 13));
+        bTeam21 = new QPushButton(centralWidget);
+        bTeam21->setObjectName(QStringLiteral("bTeam21"));
+        bTeam21->setEnabled(false);
+        bTeam21->setGeometry(QRect(490, 150, 41, 23));
+        bTeam22 = new QPushButton(centralWidget);
+        bTeam22->setObjectName(QStringLiteral("bTeam22"));
+        bTeam22->setEnabled(false);
+        bTeam22->setGeometry(QRect(540, 150, 41, 23));
         ToetictacClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ToetictacClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -221,8 +234,8 @@ public:
         label_4->setText(QApplication::translate("ToetictacClass", "CLIENT", 0));
         fClientSend->setText(QApplication::translate("ToetictacClass", "Wy\305\233lij wiadomo\305\233\304\207 do serwera", 0));
         fServerSend->setText(QApplication::translate("ToetictacClass", "Wy\305\233lij wiadomo\305\233\304\207 do klienta", 0));
-        bTeam1->setText(QApplication::translate("ToetictacClass", "Dru\305\274yna 1", 0));
-        bTeam2->setText(QApplication::translate("ToetictacClass", "Dru\305\274yna 2", 0));
+        bTeam11->setText(QApplication::translate("ToetictacClass", "1", 0));
+        bTeam12->setText(QApplication::translate("ToetictacClass", "2", 0));
         pushButton_4->setText(QString());
         label_5->setText(QApplication::translate("ToetictacClass", "Team 2:", 0));
         label->setText(QString());
@@ -241,6 +254,8 @@ public:
         pushButton_9->setText(QString());
         numOfPlayers1->setText(QApplication::translate("ToetictacClass", "0", 0));
         numOfPlayers2->setText(QApplication::translate("ToetictacClass", "0", 0));
+        bTeam21->setText(QApplication::translate("ToetictacClass", "3", 0));
+        bTeam22->setText(QApplication::translate("ToetictacClass", "4", 0));
     } // retranslateUi
 
 };
